@@ -12,13 +12,20 @@ app.get("/", (req, res) => res.send("Hello World!"));
 app.get("/auth/callback", async (req: Request, res: Response) => {
   const code = req.params.code;
   const state = req.params.state;
-  const url = `https://account.withings.com/oauth2/token?grant_type=authorization_code&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&code=${code}&redirect_uri=${REDIRECT_URI}`;
+  const url = `https://account.withings.com/oauth2/token`;
+
   const response = await fetch(url, {
-    method: "POST"
+    method: "POST",
+    body: JSON.stringify({
+      grant_type: "authorization_code",
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      code: code,
+      redirect_uri: REDIRECT_URI
+    })
   });
 
   response.json();
-
   return response;
 });
 
