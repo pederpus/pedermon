@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction} from "express";
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -6,6 +6,16 @@ const app = express();
 const CLIENT_ID = `${process.env.WITHINGS_CLIENT_ID}`;
 const CLIENT_SECRET = `${process.env.WITHINGS_CLIENT_SECRET}`;
 const REDIRECT_URI = `https://pederpus.no/auth/callback`;
+
+function errorHandler(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  res.status(500);
+  res.render("error", { error: err });
+}
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
