@@ -20,11 +20,13 @@ function errorHandler(
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.get("/auth/callback", async (req: Request, res: Response) => {
-  const code = req.params.code;
-  const state = req.params.state;
+  // const code = req.params.code;
+  // const state = req.params.state;
   const url = `https://account.withings.com/oauth2/token`;
 
-  return code;
+  return url
+
+  // return res.render(code);
 
   // const response = await fetch(url, {
   //   method: "POST",
