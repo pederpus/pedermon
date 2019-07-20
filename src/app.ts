@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction} from "express";
+import express, {Request, Response, NextFunction} from "express";
+import fetch from 'node-fetch'
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -8,21 +9,21 @@ const CLIENT_SECRET = `${process.env.WITHINGS_CLIENT_SECRET}`;
 const REDIRECT_URI = `https://pederpus.no/auth/callback`;
 
 function errorHandler(
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
+    err: Error,
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) {
-  res.status(500);
-  res.render("error", { error: err });
+    res.status(500);
+    res.render("error", {error: err});
 }
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.get("/auth/callback", async (req: Request, res: Response) => {
-  const code = req.params.code;
-  const state = req.params.state;
-  const url = `https://account.withings.com/oauth2/token`;
+    const code = req.params.code;
+    const state = req.params.state;
+    const url = `https://account.withings.com/oauth2/token`;
 
   const response = await fetch(url, {
     method: "POST",
@@ -35,13 +36,13 @@ app.get("/auth/callback", async (req: Request, res: Response) => {
     })
   });
 
-  let json = await response.json();
-  res.send(json);
+    let json = await response.json();
+    res.send(json);
 });
 
 app.get("/auth/login", (req, res) => {
-  const url = `https://account.withings.com/oauth2_user/authorize2?response_type=code&client_id=${CLIENT_ID}&state=foo&scope=user.metrics&redirect_uri=${REDIRECT_URI}`;
-  res.redirect(url);
+    const url = `https://account.withings.com/oauth2_user/authorize2?response_type=code&client_id=${CLIENT_ID}&state=foo&scope=user.metrics&redirect_uri=${REDIRECT_URI}`;
+    res.redirect(url);
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
