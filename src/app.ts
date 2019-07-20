@@ -43,7 +43,7 @@ app.get("/auth/callback", async (req: Request, res: Response) => {
   // return response;
 });
 
-app.get("/auth", (req, res) => {
+app.get("/auth/login", (req, res) => {
   const url = `https://account.withings.com/oauth2_user/authorize2?response_type=code&client_id=${CLIENT_ID}&state=foo&scope=user.metrics&redirect_uri=${REDIRECT_URI}`;
   res.redirect(url);
 });
